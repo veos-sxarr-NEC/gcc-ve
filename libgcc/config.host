@@ -17,6 +17,8 @@
 #along with GCC; see the file COPYING3.  If not see
 #<http://www.gnu.org/licenses/>.
 
+# Changes by NEC Corporation for the VE port, 2017-2021
+
 # This is the libgcc host-specific configuration file
 # where a configuration type is mapped to different system-specific
 # definitions and files.  This is invoked by the autoconf-generated
@@ -1327,6 +1329,9 @@ m32c-*-elf*|m32c-*-rtems*)
 nvptx-*)
 	tmake_file="$tmake_file nvptx/t-nvptx"
 	extra_parts="crt0.o"
+	;;
+ve-*-*)
+	tmake_file="$tmake_file ve/t-ve t-slibgcc-libgcc"
 	;;
 *)
 	echo "*** Configuration ${host} not supported" 1>&2

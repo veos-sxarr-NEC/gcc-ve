@@ -1,0 +1,15 @@
+LIB1ASMSRC    = ve/lib1funcs.S
+
+LIB1ASMFUNCS  = _unordsf2 _unorddf2 _unordtf2 \
+              _fixdfti _fixsfti _fixtfti \
+              _fixunsdfti _fixunssfti _fixunstfti \
+              _multi3 _divti3 _udivti3
+
+LIB2ADD = $(srcdir)/config/ve/modti.c  \
+	$(srcdir)/config/ve/divtf3.c  \
+	$(srcdir)/config/ve/dso_handle.c 
+
+LIB2ADDEH = $(srcdir)/unwind-c.c \
+        $(srcdir)/unwind-dw2.c \
+        $(srcdir)/unwind-sjlj.c \
+        $(srcdir)/config/ve/unwind-ve.c

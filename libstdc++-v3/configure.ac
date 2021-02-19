@@ -116,7 +116,14 @@ fi
 # creating position-independent objects. This varies with the target
 # hardware and operating system, but is often: -DPIC -fPIC.
 if test "$enable_shared" = yes; then
+case ${target} in
+ve-*-*) 
+  glibcxx_lt_pic_flag=
+  ;;
+*)
   glibcxx_lt_pic_flag="-prefer-pic"
+  ;;
+esac
   glibcxx_compiler_pic_flag="$lt_prog_compiler_pic_CXX"
   glibcxx_compiler_shared_flag="-D_GLIBCXX_SHARED"
 

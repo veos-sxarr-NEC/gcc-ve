@@ -1,0 +1,7 @@
+#CC=gcc
+#LIBGCC1 = libgcc1.null
+#CROSS_LIBGCC1 = libgcc1.null
+#T_CFLAGS = -DDONT_HAVE_SETJMP
+#LIBGCC2_CFLAGS=-g -O5 $(GCC_CFLAGS) 
+
+

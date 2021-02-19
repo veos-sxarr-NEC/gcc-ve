@@ -14,6 +14,8 @@
 # along with GCC; see the file COPYING3.  If not see
 # <http://www.gnu.org/licenses/>.
 
+# Changes by NEC Corporation for the VE port, 2018-2021
+
 # Please email any bugs, comments, and/or additions to this file to:
 # gcc-patches@gcc.gnu.org
 
@@ -1117,6 +1119,9 @@ proc check_effective_target_shared { } {
 # Return 1 if -pie, -fpie and -fPIE are supported, 0 otherwise.
 
 proc check_effective_target_pie { } {
+    if { [istarget ve-*-*] } {
+        return 0;
+    }
     if { [istarget *-*-darwin\[912\]*]
 	 || [istarget *-*-dragonfly*]
 	 || [istarget *-*-freebsd*]

@@ -1,0 +1,102 @@
+; Options for the VE port of the compiler.
+
+; Copyright (C) 2010-2016 Free Software Foundation, Inc.
+;
+; This file is part of GCC.
+;
+; GCC is free software; you can redistribute it and/or modify it under
+; the terms of the GNU General Public License as published by the Free
+; Software Foundation; either version 3, or (at your option) any later
+; version.
+;
+; GCC is distributed in the hope that it will be useful, but WITHOUT ANY
+; WARRANTY; without even the implied warranty of MERCHANTABILITY or
+; FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+; for more details.
+;
+; You should have received a copy of the GNU General Public License
+; along with GCC; see the file COPYING3.  If not see
+; <http://www.gnu.org/licenses/>.
+; Changes by NEC Corporation for the VE port, 2017-2021
+
+HeaderInclude
+config/ve/ve-opts.h
+
+TargetVariable
+unsigned int ve_const_indirect
+
+TargetVariable
+unsigned int ve_symbol_indirect
+
+;
+; formatting options 
+;
+masm-align
+Target Mask(ASM_ALIGN)
+Use .align instead of .balign in asm
+
+;
+; compatibility options
+;
+mfour-byte-bool
+Target Mask(FOUR_BYTE_BOOL)
+Change _Bool size from 1 byte to 4 bytes (warning: ABI altered)
+
+mpadstruct
+Target Mask(PADSTRUCT)
+Make structs a multiple of 4 bytes (warning: ABI altered)
+
+mshift-count-full
+Target Mask(SHIFT_COUNT_FULL)
+Assume shift count is not truncated, but uses full bit. Basically the result may not change. It is *only* effective for compile time constant calculations. (Experimantal)
+
+mconst-indirect
+Target Mask(CONST_INDIRECT)
+Access large constants(>4bytes) indirectly through Linkage area rather than immediate instruction
+
+msymbol-indirect
+Target Mask(SYMBOL_INDIRECT)
+Access symbolic name indirectly through Linkage area rather than immediate instruction
+
+mmusl-compat
+Target Mask(MUSL_COMPAT)
+Generate code that is compatible with musl-libc
+
+;
+; optimization options 
+;
+margmem=
+Target RejectNegative Joined Enum(ve_argmem_setting) Var(ve_argmem) Init(ARGMEM_SAFE)
+-maregmrm=[force|safe|opt]	Function caller sets arguments to memory FORCEdly, SAFEly, OPTimally   
+
+Enum
+Name(ve_argmem_setting) Type(enum ve_argmem_setting)
+
+EnumValue
+Enum(ve_argmem_setting) String(force) Value(ARGMEM_FORCE)
+
+EnumValue
+Enum(ve_argmem_setting) String(safe) Value(ARGMEM_SAFE)
+
+EnumValue
+Enum(ve_argmem_setting) String(opt) Value(ARGMEM_OPT)
+
+mopt-sign-extension
+Target Mask(OPT_SIGN_EXTENSION)
+Optimize sign extension of integers when it seems not necessary. (Experimental)
+
+mstruct-by-value=
+Target RejectNegative Joined UInteger Var(ve_struct_by_value) Init(0)
+Upper limit of stucture or union argument size passed by value (default is 0)
+
+mno-cmov
+Target Mask(NO_CMOV)
+Do not use cmov instrunction, but (maybe) use branch
+
+mbranch-prob=
+Target RejectNegative Joined UInteger Var(ve_branch_prob) Init(85)
+Lower limit of branch probability with which static branch predicition(.t or .nt postfix for branch instruction) is generated. The value should be usually in the range between 55 and 100. Lower value generates much static prediction (default is 85)
+
+mtls-asis
+Target Mask(TLS_ASIS)
+Treat all tls model asis. Stop changing all to be global-dynamic

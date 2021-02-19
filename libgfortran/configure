@@ -12,6 +12,8 @@
 ## M4sh Initialization. ##
 ## -------------------- ##
 
+# Changes by NEC Corporation for the VE port, 2017-2021
+
 # Be more Bourne compatible
 DUALCASE=1; export DUALCASE # for MKS sh
 if test -n "${ZSH_VERSION+set}" && (emulate sh) >/dev/null 2>&1; then :
@@ -16532,6 +16534,17 @@ case "${host}--x${with_newlib}" in
   nvptx*--xyes)
     hardwire_newlib=1;;
 esac
+
+case "${host}" in
+   ve*)
+
+cat >>confdefs.h <<_ACEOF
+#define HAVE_LOCALTIME_R 1
+#define HAVE_GMTIME_R 1
+_ACEOF
+
+esac
+
 
 # Check for library functions.
 if test "${hardwire_newlib:-0}" -eq 1; then

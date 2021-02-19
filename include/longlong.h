@@ -25,6 +25,7 @@
    You should have received a copy of the GNU Lesser General Public
    License along with the GNU C Library; if not, see
    <http://www.gnu.org/licenses/>.  */
+/* Changes by NEC Corporation for the VE port, 2018-2021 */
 
 /* You have to define the following before including this file:
 
@@ -121,6 +122,12 @@ extern const UQItype __clz_tab[256] attribute_hidden;
 #define __CLOBBER_CC : "cc"
 #define __AND_CLOBBER_CC , "cc"
 #endif /* __GNUC__ < 2 */
+
+#if defined (__ve__)
+#define count_leading_zeros(COUNT, X)	((COUNT) = __builtin_clz (X))
+#define count_trailing_zeros(COUNT, X)   ((COUNT) = __builtin_ctz (X))
+#define COUNT_LEADING_ZEROS_0 32
+#endif /* __ve__ */
 
 #if defined (__aarch64__)
 

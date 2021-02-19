@@ -1,0 +1,28 @@
+/* Mode definitions of target machine for GNU compiler.  VE version.
+   Copyright (C) 2007-2016 Free Software Foundation, Inc.
+
+This file is part of GCC.
+
+GCC is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 3, or (at your option)
+any later version.
+
+GCC is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with GCC; see the file COPYING3.  If not see
+<http://www.gnu.org/licenses/>.  */
+/* Changes by NEC Corporation for the VE port, 2017-2021 */
+
+/* VE supports the standard quiet bit.
+   while SX has the same reversed quiet bit as MIPS */
+RESET_FLOAT_FORMAT (SF, ieee_single_format);
+RESET_FLOAT_FORMAT (DF, ieee_double_format);
+
+/* TFmode: IEEE quad floating point */
+FLOAT_MODE (TF, 16, ieee_quad_format);
+

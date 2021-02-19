@@ -17,6 +17,8 @@
 #along with GCC; see the file COPYING3.  If not see
 #<http://www.gnu.org/licenses/>.
 
+# Changes by NEC Corporation for the VE port, 2017-2021
+
 # This is the GCC target-specific configuration file
 # where a configuration type is mapped to different system-specific
 # definitions and files.  This is invoked by the autoconf-generated
@@ -495,6 +497,9 @@ tilegx*-*-*)
 	;;
 tilepro*-*-*)
 	cpu_type=tilepro
+	;;
+ve-*-*)
+	cpu_type=ve
 	;;
 esac
 
@@ -3042,6 +3047,9 @@ m32c-*-elf*)
 	tm_file="dbxelf.h elfos.h newlib-stdint.h ${tm_file}"
 	c_target_objs="m32c-pragma.o"
 	cxx_target_objs="m32c-pragma.o"
+ 	;;
+ve-*-*)
+	tm_file="${tm_file} ve/linux.h ve/ve-stdint.h"
  	;;
 *)
 	echo "*** Configuration ${target} not supported" 1>&2

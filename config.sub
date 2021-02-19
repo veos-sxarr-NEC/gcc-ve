@@ -24,6 +24,7 @@ timestamp='2016-12-24'
 # program.  This Exception is an additional permission under section 7
 # of the GNU General Public License, version 3 ("GPLv3").
 
+# Changes by NEC Corporation for the VE port, 2017-2021
 
 # Please send patches to <config-patches@gnu.org>.
 #
@@ -1332,6 +1333,9 @@ case $basic_machine in
 	pmac | pmac-mpw)
 		basic_machine=powerpc-apple
 		;;
+	ve | ve-nec)
+		basic_machine=ve-nec
+		;;
 	*-unknown)
 		# Make sure to match an already-canonicalized machine name.
 		;;
@@ -1736,6 +1740,10 @@ case $basic_machine in
 		;;
 	*-atari*)
 		os=-mint
+		;;
+	ve-nec)
+		os=-linux
+		vendor=nec
 		;;
 	*)
 		os=-none
