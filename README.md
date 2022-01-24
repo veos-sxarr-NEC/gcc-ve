@@ -58,7 +58,10 @@ Gcc for VE is distributed under the GNU General Public License, version 3.
 
 * [Issues](https://github.com/veos-sxarr-NEC/gcc-ve/issues) of this project
 * [Aurora Web Forum](https://www.hpc.nec/forums/)
-     
+
+## How to get the source codes
+
+The source code is distributed on the [github](https://github.com/veos-sxarr-NEC/gcc-ve).
 
 
 
