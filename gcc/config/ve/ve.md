@@ -2311,13 +2311,12 @@
               UNSPEC_MOVE_PIC_PC))
        (clobber (match_scratch:DI 2 "=&r"))]
   ""
-  "lea\\t%0,%S1@PC_LO(-24)\\n\\
-\\tand\\t%0,%0,(32)0\\n\\
+  "addi\\t%0,-16,%S1@PC_LO\\n\\
 \\tsic\\t%2\\n\\
 \\tlea.sl\\t%0,%S1@PC_HI(%0,%2)"
   [(set_attr "type"     "move")
    (set_attr "mode"     "DI")
-   (set_attr "length" "4")])
+   (set_attr "length" "3")])
 
 (define_insn "ve_move_pic_pc2"
  [(set (match_operand:DI 0 "register_operand" "=&r")
@@ -2326,13 +2325,12 @@
             (match_operand:DI 2 "register_operand" "=&r")]
               UNSPEC_MOVE_PIC_PC2))]
   ""
-  "lea\\t%0,%S1@PC_LO(-24)\\n\\
-\\tand\\t%0,%0,(32)0\\n\\
+  "addi\\t%0,-16,%S1@PC_LO\\n\\
 \\tsic\\t%2\\n\\
 \\tlea.sl\\t%0,%S1@PC_HI(%0,%2)"
   [(set_attr "type"     "move")
    (set_attr "mode"     "DI")
-   (set_attr "length" "4")])
+   (set_attr "length" "3")])
 
 (define_insn "ve_move_pic_plt"
  [(set (match_operand:DI 0 "register_operand" "=&r")
@@ -2341,13 +2339,12 @@
               UNSPEC_MOVE_PIC_PLT))
        (clobber (match_scratch:DI 2 "=&r"))]
   ""
-  "lea\\t%0,%S1@PLT_LO(-24)\\n\\
-\\tand\\t%0,%0,(32)0\\n\\
+  "addi\\t%0,-16,%S1@PLT_LO\\n\\
 \\tsic\\t%2\\n\\
 \\tlea.sl\\t%0,%S1@PLT_HI(%0,%2)"
   [(set_attr "type"     "move")
    (set_attr "mode"     "DI")
-   (set_attr "length" "4")])
+   (set_attr "length" "3")])
 
 (define_insn "ve_move_pic_got"
  [(set (match_operand:DI 0 "register_operand" "=&r")
@@ -2355,13 +2352,12 @@
            [(match_operand:DI 1 "symbolic_operand" "")] 
               UNSPEC_MOVE_PIC_GOT))]
   ""
-  "lea\\t%0,%S1@GOT_LO\\n\\
-\\tand\\t%0,%0,(32)0\\n\\
+  "addi\\t%0,0,%S1@GOT_LO\\n\\
 \\tlea.sl\\t%0,%S1@GOT_HI(%0,%%got)\\n\\
 \\tld\\t%0,0(,%0)"
   [(set_attr "type"     "move")
    (set_attr "mode"     "DI")
-   (set_attr "length" "4")])
+   (set_attr "length" "3")])
 
 (define_insn "ve_move_pic_gotoff"
  [(set (match_operand:DI 0 "register_operand" "=&r")
@@ -2369,12 +2365,11 @@
             [(match_operand:DI 1 "symbolic_operand" "")] 
                UNSPEC_MOVE_PIC_GOTOFF))]
   ""
-  "lea\\t%0,%S1@GOTOFF_LO\\n\\
-\\tand\\t%0,%0,(32)0\\n\\
+  "addi\\t%0,0,%S1@GOTOFF_LO\\n\\
 \\tlea.sl\\t%0,%S1@GOTOFF_HI(%0,%%got)"
   [(set_attr "type"     "move")
    (set_attr "mode"     "DI")
-   (set_attr "length" "3")])
+   (set_attr "length" "2")])
 
 
 
@@ -2384,12 +2379,11 @@
            [(match_operand:DI 1 "symbolic_operand" "")] 
               UNSPEC_MOVE))]
   ""
-  "lea\\t%0,%S1@LO\\n\\
-\\tand\\t%0,%0,(32)0\\n\\
+  "addi\\t%0,0,%S1@LO\\n\\
 \\tlea.sl\\t%0,%S1@HI(,%0)"
   [(set_attr "type"     "move")
    (set_attr "mode"     "DI")
-   (set_attr "length" "3")])
+   (set_attr "length" "2")])
 
 (define_insn "ve_move_call"
  [(set (match_operand:DI 0 "register_operand" "=&r")
@@ -2397,12 +2391,11 @@
            [(match_operand:DI 1 "symbolic_operand" "")]
               UNSPEC_MOVE_CALL))]
   ""
-  "lea\\t%0,%S1@CALL_LO\\n\\
-\\tand\\t%0,%0,(32)0\\n\\
+  "addi\\t%0,0,%S1@CALL_LO\\n\\
 \\tlea.sl\\t%0,%S1@CALL_HI(,%0)"
   [(set_attr "type"     "move")
    (set_attr "mode"     "DI")
-   (set_attr "length" "3")])
+   (set_attr "length" "2")])
 
 ;; TLS Support
 
@@ -2465,12 +2458,10 @@
  xop[3] = gen_rtx_REG(DImode,0);
  xop[4] = gen_rtx_REG(DImode,VE_SCRATCH_REGNUM);
  xop[5] = gen_rtx_REG(DImode,VE_RETURN_REGNUM);
- output_asm_insn(\"lea\\t%3,%S1@TLS_GD_LO(-24)\",xop);
- output_asm_insn(\"and\\t%3,%3,(32)0\",xop);
+ output_asm_insn(\"addi\\t%3,-16,%S1@TLS_GD_LO\",xop);
  output_asm_insn(\"sic\\t%5\",xop);
  output_asm_insn(\"lea.sl\\t%3,%S1@TLS_GD_HI(%3,%5)\",xop);
- output_asm_insn(\"lea\\t%4,%S2@PLT_LO(8)\",xop);
- output_asm_insn(\"and\\t%4,%4,(32)0\",xop);
+ output_asm_insn(\"addi\\t%4,8,%S2@PLT_LO\",xop);
  output_asm_insn(\"lea.sl\\t%4,%S2@PLT_HI(%4,%5)\",xop);
  output_asm_insn(\"bsic\\t%5,(,%4)\",xop);
  if (REGNO(operands[0]) != 0)
@@ -2479,7 +2470,7 @@
 }"
   [(set_attr "type" "move")
    (set_attr "mode"     "DI")
-   (set_attr "length" "8")])
+   (set_attr "length" "7")])
 
 
 (define_insn "tld_load_call"
@@ -2542,11 +2533,9 @@
  xop[4] = gen_rtx_REG(DImode,VE_GOT_REGNUM);
  xop[5] = gen_rtx_REG(DImode,VE_SCRATCH_REGNUM);
  xop[6] = gen_rtx_REG(DImode,VE_RETURN_REGNUM);
- output_asm_insn(\"lea\\t%3,%S1@TLS_LD_LO\",xop);
- output_asm_insn(\"and\\t%3,%3,(32)0\",xop);
+ output_asm_insn(\"addi\\t%3,0,%S1@TLS_LD_LO\",xop);
  output_asm_insn(\"lea.sl\\t%3,%S1@TLS_LD_HI(%4,%3)\",xop);
- output_asm_insn(\"lea\\t%5,%S2@PLT_LO(-24)\",xop);
- output_asm_insn(\"and\\t%5,%5,(32)0\",xop);
+ output_asm_insn(\"addi\\t%5,-16,%S2@PLT_LO\",xop);
  output_asm_insn(\"sic\\t%6\",xop);
  output_asm_insn(\"lea.sl\\t%5,%S2@PLT_HI(%5,%6)\",xop);
  output_asm_insn(\"bsic\\t%6,(,%5)\",xop);
@@ -2556,7 +2545,7 @@
 }"
   [(set_attr "type" "move")
    (set_attr "mode"     "DI")
-   (set_attr "length" "8")])
+   (set_attr "length" "6")])
 
 (define_insn "tld_offset_load"
   [(set (match_operand:DI 0 "register_operand" "=r")
@@ -2574,12 +2563,11 @@
                 UNSPEC_TLSIE))
    (use (reg:DI 15))]
   ""
-  "lea\\t%0,%S1@TLS_IE_LO\\n\\
-\\tand\\t%0,%0,(32)0\\n\\
+  "addi\\t%0,0,%S1@TLS_IE_LO\\n\\
 \\tlea.sl\\t%0,%S1@TLS_IE_HI(,%0)\\n\\
 \\tld\\t%0,0(%%got,%0)"
   [(set_attr "type" "move")
-   (set_attr "length" "3")])
+   (set_attr "length" "2")])
 
 (define_insn "tle_load"
   [(set (match_operand:DI 0 "register_operand" "=&r")
@@ -2587,11 +2575,10 @@
                             UNSPEC_TLSLE)
                  (match_operand:DI 2 "register_operand" "r")))]
   ""
-  "lea\\t%0,%S1@TPOFF_LO\\n\\
-\\tand\\t%0,%0,(32)0\\n\\
+  "addi\\t%0,0,%S1@TPOFF_LO\\n\\
 \\tlea.sl\\t%0,%S1@TPOFF_HI(%2,%0)"
   [(set_attr "type" "move")
-   (set_attr "length" "3")])
+   (set_attr "length" "2")])
 
 
 ;;
